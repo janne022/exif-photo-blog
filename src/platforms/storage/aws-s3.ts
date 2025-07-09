@@ -60,7 +60,7 @@ export const awsS3Copy = async (
     : fileNameDestination;
   return awsS3Client().send(new CopyObjectCommand({
     Bucket: AWS_S3_BUCKET,
-    // FIX: Add a leading slash for SeaweedFS path-style compatibility
+    // FIX: Add a leading slash for compatability
     CopySource: `/${AWS_S3_BUCKET}/${fileNameSource}`,
     Key,
     ACL: 'public-read',

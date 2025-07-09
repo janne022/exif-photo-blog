@@ -165,14 +165,12 @@ export const copyFile = (
       false,
     );
   case 'cloudflare-r2':
-    // This was already correct
     return cloudflareR2Copy(
       fileNameForStorageUrl(originUrl),
       destinationFileName,
       false,
     );
   case 'aws-s3':
-    // FIX: Use the correct function to get the key
     return awsS3Copy(
       fileNameForStorageUrl(originUrl),
       destinationFileName,

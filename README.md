@@ -58,10 +58,10 @@ If you don't plan to change the code, or don't mind making your updates public, 
 💻&nbsp;&nbsp;Local development
 -
 1. Clone code
-2. Run `pnpm i` to install dependencies
-3. If necessary, install [Vercel CLI](https://vercel.com/docs/cli#installing-vercel-cli) and authenticate by running `vercel login`
-4. Run `vercel link` to connect CLI to your project
-5. Run `vercel dev` to start dev server with Vercel-managed environment variables
+2. Run `pnpm i` to install dependencies (can use npm or other nodejs variants)
+3. Create a .env file and add the necessary enviroment variables from .env.example
+4. Run `pnpm run build` to create a production ready build.
+5. Run `pnpm run start` to start the server.
 
 See FAQ for [limitations of local development](#can-i-work-locally-without-access-to-an-image-storage-provider)
 

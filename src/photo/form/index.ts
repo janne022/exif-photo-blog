@@ -304,7 +304,6 @@ export const convertFormDataToPhotoDbInsert = (
     ...!photoForm.id && { id: generateNanoid() },
 
     // FIX: Explicitly decode the URL, overriding the encoded version
-    // from the `photoForm` spread above.
     url: photoForm.url ? decodeURIComponent(photoForm.url) : "",
     
     // Delete array field when empty
