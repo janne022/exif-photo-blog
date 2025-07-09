@@ -1,10 +1,8 @@
 import { POSTGRES_SSL_ENABLED } from '@/app/config';
 import { removeParamsFromUrl } from '@/utility/url';
 import { Pool, QueryResult, QueryResultRow } from 'pg';
-
 const pool = new Pool({
-  connectionString: removeParamsFromUrl(process.env.POSTGRES_URL, ['sslmode']),
-  ...POSTGRES_SSL_ENABLED && { ssl: true },
+  connectionString: process.env.POSTGRES_URL,
 });
 
 export type Primitive = string | number | boolean | undefined | null;

@@ -18,13 +18,27 @@ export const makeUrlAbsolute = (url?: string) => url !== undefined
     .replace(/\/$/, '')
   : undefined;
 
-export const removeParamsFromUrl = (urlString = '', params: string[]) => {
-  const url = new URL(urlString);
-  for (const param of params) {
-    url.searchParams.delete(param);
+export const removeParamsFromUrl = (urlString?: string, params: string[] = []) => {
+  try {
+    if (!urlString) return undefined;
+
+    // Make sure it has a protocol; otherwise URL constructor will throw
+    const absoluteUrl = urlString.startsWith('http')
+      ? urlString
+      : `https://${urlString}`;
+
+    const url = new URL(absoluteUrl);
+    for (const param of params) {
+      url.searchParams.delete(param);
+    }
+    console.log("NEW URL:" + url.toString());
+    return url.toString();
+  } catch (error) {
+    console.error('Invalid URL in removeParamsFromUrl:', urlString, error);
+    return undefined;
   }
-  return url.toString();
 };
+
 
 export const downloadFileFromBrowser = async (
   url: string,

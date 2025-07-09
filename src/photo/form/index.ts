@@ -296,13 +296,17 @@ export const convertFormDataToPhotoDbInsert = (
       (photoForm as any)[key] = (photoForm as any)[key].trim();
     }
   });
-
   return {
     ...(photoForm as PhotoFormData & {
       film?: FujifilmSimulation
       recipeData?: FujifilmRecipe
     }),
     ...!photoForm.id && { id: generateNanoid() },
+
+    // FIX: Explicitly decode the URL, overriding the encoded version
+    // from the `photoForm` spread above.
+    url: photoForm.url ? decodeURIComponent(photoForm.url) : "",
+    
     // Delete array field when empty
     tags: tags.length > 0 ? tags : undefined,
     ...photoForm.recipeTitle && {

@@ -165,14 +165,16 @@ export const copyFile = (
       false,
     );
   case 'cloudflare-r2':
+    // This was already correct
     return cloudflareR2Copy(
-      getFileNameFromStorageUrl(originUrl),
+      fileNameForStorageUrl(originUrl),
       destinationFileName,
       false,
     );
   case 'aws-s3':
+    // FIX: Use the correct function to get the key
     return awsS3Copy(
-      originUrl,
+      fileNameForStorageUrl(originUrl),
       destinationFileName,
       false,
     );
@@ -184,11 +186,13 @@ export const deleteFile = (url: string) => {
   case 'vercel-blob':
     return vercelBlobDelete(url);
   case 'cloudflare-r2':
-    return cloudflareR2Delete(getFileNameFromStorageUrl(url));
+    return cloudflareR2Delete(fileNameForStorageUrl(url));
   case 'aws-s3':
-    return awsS3Delete(getFileNameFromStorageUrl(url));
+    // FIX: Use the correct function here as well
+    return awsS3Delete(fileNameForStorageUrl(url));
   }
 };
+
 
 export const moveFile = async (
   originUrl: string,

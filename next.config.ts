@@ -2,6 +2,8 @@ import { removeUrlProtocol } from '@/utility/url';
 import type { NextConfig } from 'next';
 import { RemotePattern } from 'next/dist/shared/lib/image-config';
 import path from 'path';
+const AWS_S3_ENDPOINT = process.env.NEXT_PUBLIC_AWS_S3_ENDPOINT ?? '';
+const AWS_S3_BUCKET = process.env.NEXT_PUBLIC_AWS_S3_BUCKET ?? '';
 
 const VERCEL_BLOB_STORE_ID = process.env.BLOB_READ_WRITE_TOKEN?.match(
   /^vercel_blob_rw_([a-z0-9]+)_[a-z0-9]+$/i,
@@ -14,18 +16,13 @@ const HOSTNAME_VERCEL_BLOB = VERCEL_BLOB_STORE_ID
 const HOSTNAME_CLOUDFLARE_R2 =
   process.env.NEXT_PUBLIC_CLOUDFLARE_R2_PUBLIC_DOMAIN;
 
-const HOSTNAME_AWS_S3 =
-  process.env.NEXT_PUBLIC_AWS_S3_BUCKET &&
-  process.env.NEXT_PUBLIC_AWS_S3_REGION
-    // eslint-disable-next-line max-len
-    ? `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_AWS_S3_REGION}.amazonaws.com`
-    : undefined;
+const HOSTNAME_AWS_S3 = AWS_S3_ENDPOINT
 
 const generateRemotePattern = (hostname: string) =>
   ({
-    protocol: 'https',
+    protocol: 'http',
     hostname: removeUrlProtocol(hostname)!,
-    port: '',
+    port: '8333',
     pathname: '/**',
   } as const);
 
@@ -48,7 +45,20 @@ const LOCALE_DYNAMIC = `i18n/locales/${LOCALE}`;
 const nextConfig: NextConfig = {
   images: {
     imageSizes: [200],
-    remotePatterns,
+        remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8333',
+        pathname: '/**',
+      },
+        {
+        protocol: 'http',
+        hostname: '192.168.1.113',
+        port: '8333',
+        pathname: '/**',
+      },
+    ],
     minimumCacheTTL: 31536000,
   },
   turbopack: {
